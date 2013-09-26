@@ -49,6 +49,7 @@ public abstract class TokenBucket extends ThrottleStrategy {
     }
 
     public synchronized long getTokens() {
+        updateTokens();
         return tokens;
     }
 

@@ -3,7 +3,7 @@ package me.sudohippie.throttle.strategy.bucket;
 import java.util.concurrent.TimeUnit;
 
 /**
- * StepIncreaseLeakyTokenBucket is concrete representation of {@link LeakyTokenBucket}.
+ * StepUpLeakyTokenBucket is concrete representation of {@link LeakyTokenBucket}.
  *
  * This strategy is synonymous to an empty bucket being filled with some substance (here tokens) over time.
  * Here, at the beginning of every refill interval the bucket is emptied. The bucket is then gradually filled
@@ -12,12 +12,12 @@ import java.util.concurrent.TimeUnit;
  * Raghav Sidhanti
  * 9/25/13
  */
-public class StepIncreaseLeakyTokenBucket extends LeakyTokenBucket {
+public class StepUpLeakyTokenBucket extends LeakyTokenBucket {
 
     private long lastActivityTime;
 
     /**
-     * Constructor to build a StepIncreaseLeakyTokenBucket.
+     * Constructor to build a StepUpLeakyTokenBucket.
      *
      * @param maxTokens The maximum tokens this bucket can hold.
      * @param refillInterval The interval at which the bucket must be emptied.
@@ -26,7 +26,7 @@ public class StepIncreaseLeakyTokenBucket extends LeakyTokenBucket {
      * @param stepInterval The interval at which tokens are added.
      * @param stepIntervalTimeUnit {@link TimeUnit} class representing unit of time of step interval
      */
-    protected StepIncreaseLeakyTokenBucket(int maxTokens, long refillInterval, TimeUnit refillIntervalTimeUnit, int stepTokens, long stepInterval, TimeUnit stepIntervalTimeUnit) {
+    public StepUpLeakyTokenBucket(int maxTokens, long refillInterval, TimeUnit refillIntervalTimeUnit, int stepTokens, long stepInterval, TimeUnit stepIntervalTimeUnit) {
         super(maxTokens, refillInterval, refillIntervalTimeUnit, stepTokens, stepInterval, stepIntervalTimeUnit);
     }
 

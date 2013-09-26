@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.nio.BufferUnderflowException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -30,12 +29,12 @@ public class FixedTokenBucketTest {
     /* test logic */
     // test n throttle and fixed refill interval, fixed max tokens
     long MAX_TOKENS = 10;
-    long REFILL_INTERVAL = 10;
+    long REFILL_INTERVAL = 5;
     TimeUnit REFILL_INTERVAL_TIME_UNIT = TimeUnit.SECONDS;
 
     long N_LESS_THAN_MAX = 2;
     long N_GREATER_THAN_MAX = 12;
-    int cumulative = 3;
+    int CUMULATIVE = 3;
 
     FixedTokenBucket bucket;
 
@@ -75,10 +74,10 @@ public class FixedTokenBucketTest {
     @Test
     public void testWhenCumulativeNIsLessThanMaxTokens() {
         // throttle 3 times
-        for(int i = 0; i < cumulative; i++) assertFalse(bucket.isThrottled(N_LESS_THAN_MAX));
+        for(int i = 0; i < CUMULATIVE; i++) assertFalse(bucket.isThrottled(N_LESS_THAN_MAX));
 
         long tokens = bucket.getTokens();
-        assertEquals(MAX_TOKENS - (cumulative*N_LESS_THAN_MAX), tokens);
+        assertEquals(MAX_TOKENS - (CUMULATIVE *N_LESS_THAN_MAX), tokens);
     }
 
             // when cumulative n is greater than max token
@@ -88,7 +87,7 @@ public class FixedTokenBucketTest {
     @Test
     public void testWhenCumulativeNIsGreaterThanMaxTokens() {
         // throttle 3 times
-        for(int i = 0; i < cumulative; i++) assertTrue(bucket.isThrottled(N_GREATER_THAN_MAX));
+        for(int i = 0; i < CUMULATIVE; i++) assertTrue(bucket.isThrottled(N_GREATER_THAN_MAX));
 
         long tokens = bucket.getTokens();
         assertEquals(MAX_TOKENS, tokens);
@@ -143,7 +142,7 @@ public class FixedTokenBucketTest {
         // throttle 3 times
         int sum = 0;
 
-        for(int i = 0; i < cumulative; i++){
+        for(int i = 0; i < CUMULATIVE; i++){
             assertFalse(bucket.isThrottled(N_LESS_THAN_MAX));
             sum += N_LESS_THAN_MAX;
         }
@@ -153,7 +152,7 @@ public class FixedTokenBucketTest {
         Thread.sleep(REFILL_INTERVAL_TIME_UNIT.toMillis(REFILL_INTERVAL));
 
         // throttle 3 times
-        for(int i = 0; i < cumulative; i++) assertFalse(bucket.isThrottled(N_LESS_THAN_MAX));
+        for(int i = 0; i < CUMULATIVE; i++) assertFalse(bucket.isThrottled(N_LESS_THAN_MAX));
         long afterTokens = bucket.getTokens();
         assertEquals(MAX_TOKENS - sum, afterTokens);
     }
@@ -165,7 +164,7 @@ public class FixedTokenBucketTest {
     public void testWhenCumulativeNLessThanMaxSleepCumulativeNGreaterThanMax() throws InterruptedException {
         int sum = 0;
 
-        for(int i = 0; i < cumulative; i++){
+        for(int i = 0; i < CUMULATIVE; i++){
             assertFalse(bucket.isThrottled(N_LESS_THAN_MAX));
             sum += N_LESS_THAN_MAX;
         }
@@ -174,7 +173,7 @@ public class FixedTokenBucketTest {
 
         Thread.sleep(REFILL_INTERVAL_TIME_UNIT.toMillis(REFILL_INTERVAL));
 
-        for(int i = 0; i < 3*cumulative; i++) bucket.isThrottled(N_LESS_THAN_MAX);
+        for(int i = 0; i < 3* CUMULATIVE; i++) bucket.isThrottled(N_LESS_THAN_MAX);
         boolean after = bucket.isThrottled(N_LESS_THAN_MAX);
         long afterTokens = bucket.getTokens();
 
@@ -188,7 +187,7 @@ public class FixedTokenBucketTest {
     @Test
     public void testWhenCumulativeNGreaterThanMaxSleepCumulativeNLessThanMax() throws InterruptedException {
 
-        for(int i = 0; i < 3*cumulative; i++) bucket.isThrottled(N_LESS_THAN_MAX);
+        for(int i = 0; i < 3* CUMULATIVE; i++) bucket.isThrottled(N_LESS_THAN_MAX);
         boolean before = bucket.isThrottled(N_LESS_THAN_MAX);
         long beforeTokens = bucket.getTokens();
 
@@ -198,7 +197,7 @@ public class FixedTokenBucketTest {
         Thread.sleep(REFILL_INTERVAL_TIME_UNIT.toMillis(REFILL_INTERVAL));
 
         int sum = 0;
-        for(int i = 0; i < cumulative; i++){
+        for(int i = 0; i < CUMULATIVE; i++){
             assertFalse(bucket.isThrottled(N_LESS_THAN_MAX));
             sum += N_LESS_THAN_MAX;
         }
@@ -212,7 +211,7 @@ public class FixedTokenBucketTest {
     @Test
     public void testWhenCumulativeNGreaterThanMaxSleepCumulativeNGreaterThanMax() throws InterruptedException {
 
-        for(int i = 0; i < 3*cumulative; i++) bucket.isThrottled(N_LESS_THAN_MAX);
+        for(int i = 0; i < 3* CUMULATIVE; i++) bucket.isThrottled(N_LESS_THAN_MAX);
         boolean before = bucket.isThrottled(N_LESS_THAN_MAX);
         long beforeTokens = bucket.getTokens();
 
@@ -221,7 +220,7 @@ public class FixedTokenBucketTest {
 
         Thread.sleep(REFILL_INTERVAL_TIME_UNIT.toMillis(REFILL_INTERVAL));
 
-        for(int i = 0; i < 3*cumulative; i++) bucket.isThrottled(N_LESS_THAN_MAX);
+        for(int i = 0; i < 3* CUMULATIVE; i++) bucket.isThrottled(N_LESS_THAN_MAX);
         boolean after = bucket.isThrottled(N_LESS_THAN_MAX);
         long afterTokens = bucket.getTokens();
 
@@ -288,8 +287,11 @@ public class FixedTokenBucketTest {
             }
         });
 
-        t1.join(20000);
-        t2.join(20000);
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
 
         assertEquals(MAX_TOKENS, bucket.getTokens());
     }
