@@ -25,5 +25,5 @@ public abstract class ThrottleStrategy {
      * @param n
      * @return
      */
-    public abstract boolean isThrottled(int n);
+    public abstract boolean isThrottled(long n);
 }

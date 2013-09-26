@@ -5,7 +5,7 @@ import me.sudohippie.throttle.strategy.ThrottleStrategy;
 /**
  * Bridge to enable throttling.
  *
- * User must specify his desired throttling strategy.
+ * User must specify his/her desired throttling strategy.
  *
  * Raghav Sidhanti
  * 9/25/13

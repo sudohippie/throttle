@@ -1,6 +1,7 @@
 package me.sudohippie.throttle.strategy.bucket;
 
 import me.sudohippie.throttle.strategy.ThrottleStrategy;
+import me.sudohippie.throttle.util.Assert;
 
 /**
  * Abstract class representing a token bucket strategy.
@@ -18,6 +19,8 @@ public abstract class TokenBucket extends ThrottleStrategy {
     protected long tokens = 0;
 
     protected TokenBucket(long maxTokens) {
+        Assert.isTrue(maxTokens >= 0, "Max tokens can not be negative");
+
         this.maxTokens = maxTokens;
     }
 
@@ -27,9 +30,9 @@ public abstract class TokenBucket extends ThrottleStrategy {
     }
 
     @Override
-    public synchronized boolean isThrottled(int n) {
+    public synchronized boolean isThrottled(long n) {
         // preconditions
-        if(n < 0) throw new IllegalArgumentException("Invalid argument less than 0");
+        Assert.isTrue(n >= 0, "Invalid argument less than 0");
 
         // update tokens
         updateTokens();
@@ -39,6 +42,14 @@ public abstract class TokenBucket extends ThrottleStrategy {
 
         tokens -= n;
         return false;
+    }
+
+    public long getMaxTokens() {
+        return maxTokens;
+    }
+
+    public synchronized long getTokens() {
+        return tokens;
     }
 
     protected abstract void updateTokens();

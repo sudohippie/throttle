@@ -45,8 +45,8 @@ public class StepIncreaseLeakyTokenBucket extends LeakyTokenBucket {
 
         // calculate tokens at current step
         long elapsedTimeSinceLastActivity = currentTime - lastActivityTime;
-        long elapsedStepsLastActivity = elapsedTimeSinceLastActivity / stepInterval;
-        tokens += (elapsedStepsLastActivity * stepTokens);
+        long elapsedStepsSinceLastActivity = elapsedTimeSinceLastActivity / stepInterval;
+        tokens += (elapsedStepsSinceLastActivity * stepTokens);
         // edge case, if at the beginning of a new step then add tokens
         if((elapsedTimeSinceLastActivity % stepInterval) == 0) tokens += stepTokens;
         // check for bucket overflow

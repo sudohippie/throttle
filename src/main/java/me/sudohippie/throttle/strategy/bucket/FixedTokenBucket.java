@@ -1,5 +1,7 @@
 package me.sudohippie.throttle.strategy.bucket;
 
+import me.sudohippie.throttle.util.Assert;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,8 +22,12 @@ public class FixedTokenBucket extends TokenBucket {
     protected final long refillInterval;
     protected long nextRefillTime = 0;
 
-    public FixedTokenBucket(int size, long refillInterval, TimeUnit refillIntervalTimeUnit) {
-        super(size);
+    public FixedTokenBucket(long maxTokens, long refillInterval, TimeUnit refillIntervalTimeUnit) {
+        super(maxTokens);
+
+        // preconditions
+        Assert.isTrue(refillInterval >= 0, "Refill interval can not be negative");
+
         this.refillInterval = refillIntervalTimeUnit.toMillis(refillInterval);
     }
 

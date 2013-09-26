@@ -1,5 +1,7 @@
 package me.sudohippie.throttle.strategy.bucket;
 
+import me.sudohippie.throttle.util.Assert;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,6 +24,11 @@ public abstract class LeakyTokenBucket extends TokenBucket {
 
     protected LeakyTokenBucket(long maxTokens, long refillInterval, TimeUnit refillIntervalTimeUnit, long stepTokens, long stepInterval, TimeUnit stepIntervalTimeUnit) {
         super(maxTokens);
+
+        // preconditions
+        Assert.isTrue(refillInterval >= 0, "Refill interval can not be negative");
+        Assert.isTrue(stepInterval >= 0, "Step interval is not negative");
+        Assert.isTrue(stepTokens >= 0, "Step token can not be negative");
 
         this.stepTokens = stepTokens;
         this.refillInterval = refillIntervalTimeUnit.toMillis(refillInterval);
