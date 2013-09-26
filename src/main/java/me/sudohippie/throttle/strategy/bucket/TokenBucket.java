@@ -23,15 +23,21 @@ public abstract class TokenBucket extends ThrottleStrategy {
 
     @Override
     public synchronized boolean isThrottled() {
+        return isThrottled(1);
+    }
+
+    @Override
+    public synchronized boolean isThrottled(int n) {
+        // preconditions
+        if(n < 0) throw new IllegalArgumentException("Invalid argument less than 0");
+
         // update tokens
         updateTokens();
 
-        // check token count
-        if(tokens <= 0){
-            return true;
-        }
+        // check whether there exist at least n tokens in bucket
+        if(tokens < n) return true;
 
-        tokens --;
+        tokens -= n;
         return false;
     }
 
