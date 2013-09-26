@@ -38,7 +38,7 @@ public class StepDecreaseLeakyTokenBucket extends LeakyTokenBucket {
             // set tokens to max
             tokens = maxTokens;
             // calculate next refill time
-            nextRefillTime += (currentTime + refillInterval);
+            nextRefillTime = currentTime + refillInterval;
 
             return;
         }

@@ -38,7 +38,7 @@ public class StepIncreaseLeakyTokenBucket extends LeakyTokenBucket {
         if(currentTime >= nextRefillTime){
             tokens = stepTokens;
             lastActivityTime = currentTime;
-            nextRefillTime += (currentTime + refillInterval);
+            nextRefillTime = currentTime + refillInterval;
 
             return;
         }
