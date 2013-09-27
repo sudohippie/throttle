@@ -36,7 +36,7 @@ public class StepDownLeakyTokenBucket extends LeakyTokenBucket {
         // if current time exceeds next refill time
         if(currentTime >= nextRefillTime){
             // set tokens to max
-            tokens = maxTokens;
+            tokens = bucketTokenCapacity;
             // calculate next refill time
             nextRefillTime = currentTime + refillInterval;
 

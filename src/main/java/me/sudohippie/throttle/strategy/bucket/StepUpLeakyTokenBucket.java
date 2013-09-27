@@ -50,7 +50,7 @@ public class StepUpLeakyTokenBucket extends LeakyTokenBucket {
         // edge case, if at the beginning of a new step then add tokens
         if((elapsedTimeSinceLastActivity % stepInterval) == 0) tokens += stepTokens;
         // check for bucket overflow
-        if(tokens > maxTokens) tokens = maxTokens;
+        if(tokens > bucketTokenCapacity) tokens = bucketTokenCapacity;
 
         // update last activity time
         lastActivityTime = currentTime;

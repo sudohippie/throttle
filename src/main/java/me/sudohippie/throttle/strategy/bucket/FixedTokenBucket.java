@@ -37,7 +37,7 @@ public class FixedTokenBucket extends TokenBucket {
         long currentTime = System.currentTimeMillis();
         if(currentTime < nextRefillTime) return;
 
-        tokens = maxTokens;
+        tokens = bucketTokenCapacity;
         nextRefillTime = currentTime + refillInterval;
     }
 }

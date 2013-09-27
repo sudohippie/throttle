@@ -13,15 +13,15 @@ import me.sudohippie.throttle.util.Assert;
  */
 public abstract class TokenBucket extends ThrottleStrategy {
 
-    // bucket maxTokens
-    protected final long maxTokens;
+    // bucket bucketTokenCapacity
+    protected final long bucketTokenCapacity;
     // number of tokens in the bucket
     protected long tokens = 0;
 
-    protected TokenBucket(long maxTokens) {
-        Assert.isTrue(maxTokens >= 0, "Max tokens can not be negative");
+    protected TokenBucket(long bucketTokenCapacity) {
+        Assert.isTrue(bucketTokenCapacity >= 0, "Bucket token capacity can not be negative");
 
-        this.maxTokens = maxTokens;
+        this.bucketTokenCapacity = bucketTokenCapacity;
     }
 
     @Override
@@ -44,11 +44,11 @@ public abstract class TokenBucket extends ThrottleStrategy {
         return false;
     }
 
-    public long getMaxTokens() {
-        return maxTokens;
+    public long getBucketCapacity() {
+        return bucketTokenCapacity;
     }
 
-    public synchronized long getTokens() {
+    public synchronized long getCurrentTokenCount() {
         updateTokens();
         return tokens;
     }
