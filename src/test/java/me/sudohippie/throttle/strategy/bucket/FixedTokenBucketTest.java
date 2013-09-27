@@ -234,7 +234,6 @@ public class FixedTokenBucketTest {
                 // tokens=max-(n1+n2)
                 // isThrottled=false
 
-    @Test
     public void testWhenThread1NLessThanMaxAndThread2NLessThanMax() throws InterruptedException {
         Thread t1 = new Thread(new Runnable() {
             @Override
