@@ -21,12 +21,12 @@ public class StepUpLeakyTokenBucket extends LeakyTokenBucket {
      *
      * @param maxTokens The maximum tokens this bucket can hold.
      * @param refillInterval The interval at which the bucket must be emptied.
-     * @param refillIntervalTimeUnit {@link TimeUnit} class representing unit of time of refill interval
+     * @param refillIntervalTimeUnit {@link java.util.concurrent.TimeUnit} class representing unit of time of refill interval
      * @param stepTokens The number of tokens added to the bucket at every step interval.
      * @param stepInterval The interval at which tokens are added.
-     * @param stepIntervalTimeUnit {@link TimeUnit} class representing unit of time of step interval
+     * @param stepIntervalTimeUnit {@link java.util.concurrent.TimeUnit} class representing unit of time of step interval
      */
-    public StepUpLeakyTokenBucket(int maxTokens, long refillInterval, TimeUnit refillIntervalTimeUnit, int stepTokens, long stepInterval, TimeUnit stepIntervalTimeUnit) {
+    public StepUpLeakyTokenBucket(long maxTokens, long refillInterval, TimeUnit refillIntervalTimeUnit, long stepTokens, long stepInterval, TimeUnit stepIntervalTimeUnit) {
         super(maxTokens, refillInterval, refillIntervalTimeUnit, stepTokens, stepInterval, stepIntervalTimeUnit);
     }
 
@@ -47,8 +47,7 @@ public class StepUpLeakyTokenBucket extends LeakyTokenBucket {
         long elapsedTimeSinceLastActivity = currentTime - lastActivityTime;
         long elapsedStepsSinceLastActivity = elapsedTimeSinceLastActivity / stepInterval;
         tokens += (elapsedStepsSinceLastActivity * stepTokens);
-        // edge case, if at the beginning of a new step then add tokens
-        if((elapsedTimeSinceLastActivity % stepInterval) == 0) tokens += stepTokens;
+
         // check for bucket overflow
         if(tokens > bucketTokenCapacity) tokens = bucketTokenCapacity;
 
