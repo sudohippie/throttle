@@ -33,7 +33,11 @@ ThrottleStrategy strategy = new FixedTokenBucket(100, 1, TimeUnit.MINUTES);
 Throttle throttle = new Throttle(strategy);
 
 // throttle :)
-throttle.canProceed();
+boolean isThrottled = throttle.canProceed();
+
+if(!isThrottled){ 
+  // your logic
+}
 ```
 
 ### Step Up Leaky Bucket Example
@@ -45,8 +49,13 @@ ThrottleStrategy strategy = new StepUpLeakyTokenBucket(100, 1, TimeUnit.MINUTES,
 Throttle throttle = new Throttle(strategy);
 
 // throttle :)
-throttle.canProceed();
+boolean isThrottled = throttle.canProceed();
+
+if(!isThrottled){ 
+  // your logic
+}
 ```
+
 ### Step Down Leaky Bucket Example
 ```java
 // construct strategy
@@ -56,5 +65,9 @@ ThrottleStrategy strategy = new StepDownLeakyTokenBucket(100, 1, TimeUnit.MINUTE
 Throttle throttle = new Throttle(strategy);
 
 // throttle :)
-throttle.canProceed();
+boolean isThrottled = throttle.canProceed();
+
+if(!isThrottled){ 
+  // your logic
+}
 ```
