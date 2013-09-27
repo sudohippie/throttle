@@ -1,5 +1,7 @@
 package me.sudohippie.throttle.strategy.bucket;
 
+import org.junit.Test;
+
 /**
  * Raghav Sidhanti
  * 9/26/13
@@ -24,6 +26,7 @@ public class StepDownLeakyTokenBucketTest {
         // throttle max/2 + n, bucket should be less than max - (max/2+n) at mid of interval
         // throttle max/2 + n, bucket should be throttled at mid of interval
         // throttle max/2 + n, bucket should be full at the beginning of next interval
+        // sleep at every step interval, tokens must be equal to max - (i*stepTokens) at each interval
         // throttle n = 1 + i * stepTokens, where i is a step. Should be throttled as we keep decreasing throttle n over time
     // test behaviour, multi threaded
         // throttle n (n < max/2) each, number of tokens remaining should be max - 2*n
