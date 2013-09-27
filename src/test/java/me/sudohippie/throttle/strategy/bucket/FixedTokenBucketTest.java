@@ -236,9 +236,6 @@ public class FixedTokenBucketTest {
 
     @Test
     public void testWhenThread1NLessThanMaxAndThread2NLessThanMax() throws InterruptedException {
-        boolean throttle = bucket.isThrottled(N_LESS_THAN_MAX);
-        assertFalse(throttle);
-
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -261,7 +258,7 @@ public class FixedTokenBucketTest {
         t1.join();
         t2.join();
 
-        assertEquals(MAX_TOKENS - 3 * N_LESS_THAN_MAX, bucket.getCurrentTokenCount());
+        assertEquals(MAX_TOKENS - 2 * N_LESS_THAN_MAX, bucket.getCurrentTokenCount());
     }
 
     // when n1 + n2 greater than max tokens
