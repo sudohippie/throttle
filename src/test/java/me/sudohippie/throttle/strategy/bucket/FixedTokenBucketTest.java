@@ -3,6 +3,7 @@ package me.sudohippie.throttle.strategy.bucket;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
@@ -511,12 +512,17 @@ public class FixedTokenBucketTest {
 	// test in multi threaded scenario, when one thread gobbles all tokens and exits other waits for next release
 	@Test
 	public void testNextReleaseWhenThread1GobblesAllTokensThread2WaitTillNextInterval() throws InterruptedException {
+
+		final CountDownLatch latch = new CountDownLatch(1);
+
 		Thread t1 = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				bucket.isThrottled(MAX_TOKENS);
 
 				assertTrue(bucket.timeToRelease(1L, TimeUnit.MILLISECONDS) > 0);
+
+				latch.countDown();
 			}
 		});
 
@@ -524,6 +530,8 @@ public class FixedTokenBucketTest {
 			@Override
 			public void run() {
 				try {
+					latch.await();
+
 					assertTrue(bucket.timeToRelease(1L, TimeUnit.MILLISECONDS) > 0);
 
 					Thread.sleep(REFILL_INTERVAL_TIME_UNIT.toMillis(REFILL_INTERVAL));
