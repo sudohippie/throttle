@@ -61,6 +61,7 @@ public abstract class TokenBucketStrategy extends ThrottleStrategy {
 	public synchronized long timeToRelease(long n, TimeUnit timeUnit){
 		// preconditions
 		Assert.isTrue(n >= 0, "Invalid argument less than 0");
+		Assert.isTrue(timeUnit != null, "TimeUnit argument can not be null");
 
 		// check whether tokens exist
 		if(getCurrentTokenCount() >= n){

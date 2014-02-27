@@ -1,7 +1,5 @@
 package me.sudohippie.throttle.strategy.bucket;
 
-import me.sudohippie.throttle.util.Assert;
-
 import java.util.concurrent.TimeUnit;
 
 /**
