@@ -17,13 +17,13 @@ public class FixedTokenBucketTest {
     // test max token when negative
     @Test(expected = IllegalArgumentException.class)
     public void testWhenMaxTokenIsNegative(){
-        FixedTokenBucket bucket = new FixedTokenBucket(-1, 0, TimeUnit.MILLISECONDS);
+        FixedTokenBucketStrategy bucket = new FixedTokenBucketStrategy(-1, 0, TimeUnit.MILLISECONDS);
     }
 
     // test refill interval when negative
     @Test(expected = IllegalArgumentException.class)
     public void testWhenRefillIntervalIsNegative(){
-        FixedTokenBucket bucket = new FixedTokenBucket(0, -1, TimeUnit.MILLISECONDS);
+        FixedTokenBucketStrategy bucket = new FixedTokenBucketStrategy(0, -1, TimeUnit.MILLISECONDS);
     }
 
     /* test logic */
@@ -36,11 +36,11 @@ public class FixedTokenBucketTest {
     long N_GREATER_THAN_MAX = 12;
     int CUMULATIVE = 3;
 
-    FixedTokenBucket bucket;
+    FixedTokenBucketStrategy bucket;
 
     @Before
     public void setUp() throws Exception {
-        bucket = new FixedTokenBucket(MAX_TOKENS, REFILL_INTERVAL, TimeUnit.MILLISECONDS);
+        bucket = new FixedTokenBucketStrategy(MAX_TOKENS, REFILL_INTERVAL, TimeUnit.MILLISECONDS);
     }
 
     // single threaded

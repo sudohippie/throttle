@@ -15,25 +15,25 @@ public class StepUpLeakyTokenBucketTest {
     // max tokens can not be negative
     @Test(expected = IllegalArgumentException.class)
     public void testMaxTokensCanNotBeNegative() throws Exception {
-        StepUpLeakyTokenBucket bucket = new StepUpLeakyTokenBucket(-1, REFILL_INTERVAL, TimeUnit.MILLISECONDS, STEP_TOKENS, STEP_INTERVAL, TimeUnit.MILLISECONDS);
+        StepUpLeakyTokenBucketStrategy bucket = new StepUpLeakyTokenBucketStrategy(-1, REFILL_INTERVAL, TimeUnit.MILLISECONDS, STEP_TOKENS, STEP_INTERVAL, TimeUnit.MILLISECONDS);
     }
 
     // interval can not be negative
     @Test(expected = IllegalArgumentException.class)
     public void testRefillIntervalCanNotBeNegative() throws Exception {
-        StepUpLeakyTokenBucket bucket = new StepUpLeakyTokenBucket(MAX_TOKENS, -1, TimeUnit.MILLISECONDS, STEP_TOKENS, STEP_INTERVAL, TimeUnit.MILLISECONDS);
+        StepUpLeakyTokenBucketStrategy bucket = new StepUpLeakyTokenBucketStrategy(MAX_TOKENS, -1, TimeUnit.MILLISECONDS, STEP_TOKENS, STEP_INTERVAL, TimeUnit.MILLISECONDS);
     }
 
     // step tokens can not be negative
     @Test(expected = IllegalArgumentException.class)
     public void testStepTokensCanNotBeNegative() throws Exception {
-        StepUpLeakyTokenBucket bucket = new StepUpLeakyTokenBucket(MAX_TOKENS, REFILL_INTERVAL, TimeUnit.MILLISECONDS, -1, STEP_INTERVAL, TimeUnit.MILLISECONDS);
+        StepUpLeakyTokenBucketStrategy bucket = new StepUpLeakyTokenBucketStrategy(MAX_TOKENS, REFILL_INTERVAL, TimeUnit.MILLISECONDS, -1, STEP_INTERVAL, TimeUnit.MILLISECONDS);
     }
 
     // step interval can not be negative
     @Test(expected = IllegalArgumentException.class)
     public void testStepIntervalCanNotBeNegative() throws Exception {
-        StepUpLeakyTokenBucket bucket = new StepUpLeakyTokenBucket(MAX_TOKENS, REFILL_INTERVAL, TimeUnit.MILLISECONDS, STEP_TOKENS, -1, TimeUnit.MILLISECONDS);
+        StepUpLeakyTokenBucketStrategy bucket = new StepUpLeakyTokenBucketStrategy(MAX_TOKENS, REFILL_INTERVAL, TimeUnit.MILLISECONDS, STEP_TOKENS, -1, TimeUnit.MILLISECONDS);
     }
 
     /* test behaviour for given state */
@@ -43,10 +43,10 @@ public class StepUpLeakyTokenBucketTest {
     private final long STEP_TOKENS = 2;
     private final long STEP_INTERVAL = 1000L;
 
-    private StepUpLeakyTokenBucket bucket;
+    private StepUpLeakyTokenBucketStrategy bucket;
     @Before
     public void setUp() throws Exception {
-        bucket = new StepUpLeakyTokenBucket(MAX_TOKENS, REFILL_INTERVAL, TimeUnit.MILLISECONDS, STEP_TOKENS, STEP_INTERVAL, TimeUnit.MILLISECONDS);
+        bucket = new StepUpLeakyTokenBucketStrategy(MAX_TOKENS, REFILL_INTERVAL, TimeUnit.MILLISECONDS, STEP_TOKENS, STEP_INTERVAL, TimeUnit.MILLISECONDS);
     }
 
     // single threaded

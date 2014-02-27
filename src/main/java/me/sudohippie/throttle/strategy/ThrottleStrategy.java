@@ -1,5 +1,7 @@
 package me.sudohippie.throttle.strategy;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Represents a throttling strategy.
  *
@@ -26,4 +28,20 @@ public abstract class ThrottleStrategy {
      * @return
      */
     public abstract boolean isThrottled(long n);
+
+	/**
+	 * Provides time for n tokens to be available.
+	 *
+	 * @param n
+	 * @param timeUnit
+	 * @return
+	 */
+	public abstract long timeToRelease(long n, TimeUnit timeUnit);
+
+	/**
+	 * Defines the maximum tokens this strategy can handle.
+	 *
+	 * @return
+	 */
+	public abstract long getCapacity();
 }

@@ -2,6 +2,8 @@ package me.sudohippie.throttle;
 
 import me.sudohippie.throttle.strategy.ThrottleStrategy;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Bridge to enable throttling.
  *
@@ -28,4 +30,15 @@ public class Throttle {
     public boolean canProceed(){
         return !strategy.isThrottled();
     }
+
+	/**
+	 * If the request can be serviced, the wait time will be 0 else a
+	 * positive value in the chosen {@code TimeUnit}.
+	 * @param timeUnit TimeUnit indicating the wait time.
+	 * @return 0 or more value in the time unit chosen
+	 */
+	public long waitTime(TimeUnit timeUnit){
+		return strategy.timeToRelease(1,timeUnit);
+	}
+
 }
