@@ -24,7 +24,7 @@ public abstract class LeakyTokenBucketStrategy extends TokenBucketStrategy {
         super(maxTokens, refillInterval, refillIntervalTimeUnit);
 
         // preconditions
-        Assert.isTrue(stepInterval >= 0, "Step interval is not negative");
+        Assert.isTrue(stepInterval >= 0, "Step interval can not be negative");
         Assert.isTrue(stepTokens >= 0, "Step token can not be negative");
 
         this.stepTokens = stepTokens;
